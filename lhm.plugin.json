@@ -1,0 +1,971 @@
+{
+  "identifier": "iqfluence-iqfluence-mcp",
+  "name": "IQFluence",
+  "version": "1.0.0",
+  "description": "Search 455M+ Instagram, TikTok and YouTube creators and analyze influencers from your AI assistant.",
+  "author": "IQFluence",
+  "authorUrl": "https://iqfluence.io",
+  "homepage": "https://iqfluence.io/docs/mcp",
+  "icon": "https://mcp.iqfluence.io/icon.png",
+  "category": "business",
+  "tags": [
+    "influencer-marketing",
+    "creators",
+    "instagram",
+    "tiktok",
+    "youtube",
+    "social-media",
+    "marketing",
+    "analytics"
+  ],
+  "cloudEndpoint": "https://mcp.iqfluence.io/mcp",
+  "tools": [
+    {
+      "name": "get_influencer_report",
+      "description": "Full creator report: audience and its quality, engagement, growth, content, contacts (1 credit; free if bought in the last 30 days).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "account": {
+            "description": "Username (Instagram/TikTok), channel handle or ID (YouTube), or a full profile URL",
+            "title": "Account",
+            "type": "string"
+          },
+          "sections": {
+            "anyOf": [
+              {
+                "items": {
+                  "enum": [
+                    "audience",
+                    "performance",
+                    "content",
+                    "similar"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Extra detail on top of the overview: audience (geo, age, gender, interests, brands, credibility), performance (stats by post type, monthly history), content (hashtags, mentions, top and recent posts), similar (lookalike creators)",
+            "title": "Sections"
+          },
+          "refresh": {
+            "default": false,
+            "description": "Buy a fresh report even if one from the last 30 days exists (1 credit)",
+            "title": "Refresh",
+            "type": "boolean"
+          },
+          "allow_outdated": {
+            "default": false,
+            "description": "If fresh data is still being collected, return the latest available data instead",
+            "title": "Allow Outdated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "platform",
+          "account"
+        ],
+        "title": "get_influencer_reportArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "audience_overlap",
+      "description": "Shared audience and unique reach across creators (1 credit per calculation).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "accounts": {
+            "description": "Usernames or profile URLs",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 2,
+            "title": "Accounts",
+            "type": "array"
+          }
+        },
+        "required": [
+          "platform",
+          "accounts"
+        ],
+        "title": "audience_overlapArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "compare_influencers",
+      "description": "Compare 2-5 creators side by side (1 credit per creator without a recent report).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "accounts": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 5,
+            "minItems": 2,
+            "title": "Accounts",
+            "type": "array"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Country the brand sells in, e.g. 'United Kingdom'; ranks audience share there",
+            "title": "Market"
+          },
+          "allow_outdated": {
+            "default": false,
+            "description": "If fresh data is still being collected, use the latest available data instead",
+            "title": "Allow Outdated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "platform",
+          "accounts"
+        ],
+        "title": "compare_influencersArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "build_media_plan",
+      "description": "Expected views, engagements, CPM and cost per engagement for a set of creators (1 credit per creator without a recent report).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "accounts": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Accounts",
+            "type": "array"
+          },
+          "fees": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Fee for one sponsored post, keyed by the same strings as in accounts",
+            "title": "Fees"
+          },
+          "currency": {
+            "default": "USD",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "title": "Currency",
+            "type": "string"
+          },
+          "allow_outdated": {
+            "default": false,
+            "description": "If fresh data is still being collected, use the latest available data instead",
+            "title": "Allow Outdated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "platform",
+          "accounts"
+        ],
+        "title": "build_media_planArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_campaign_stats",
+      "description": "Campaign results: views, engagement, budget, top posts (free).",
+      "inputSchema": {
+        "properties": {
+          "campaign_id": {
+            "description": "Campaign id from list_campaigns",
+            "minimum": 1,
+            "title": "Campaign Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "campaign_id"
+        ],
+        "title": "get_campaign_statsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_account_balance",
+      "description": "MCP balance, plan and today's spend for this connection (free).",
+      "inputSchema": {
+        "properties": {},
+        "title": "get_account_balanceArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "search_influencers",
+      "description": "Find Instagram, TikTok and YouTube creators by niche, location, size, engagement and audience demographics. First 3 results of every search are free.",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "topic": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Niche as hashtags and/or lookalike accounts, e.g. '#fitness' or '@nike'. Plain words become hashtags, which are mostly English: for a niche in another language use keywords. Every extra tag narrows the results, so start with one or two core tags",
+            "title": "Topic"
+          },
+          "keywords": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Phrase the creator uses in captions (IG/TT) or says in videos (YT)",
+            "title": "Keywords"
+          },
+          "bio_contains": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Phrase in the creator's bio or name",
+            "title": "Bio Contains"
+          },
+          "locations": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Where the creator is based: countries, states or cities by name (any matches). A creator based in a country may have most of the audience elsewhere: to reach a market, use audience_locations",
+            "title": "Locations"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Creator language: name or ISO code",
+            "title": "Language"
+          },
+          "followers_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Followers Min"
+          },
+          "followers_max": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Followers Max"
+          },
+          "engagement_rate_min_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Minimum engagement rate, percent",
+            "title": "Engagement Rate Min Pct"
+          },
+          "avg_views_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Minimum average views per post (TikTok, YouTube)",
+            "title": "Avg Views Min"
+          },
+          "creator_gender": {
+            "anyOf": [
+              {
+                "enum": [
+                  "male",
+                  "female"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Creator Gender"
+          },
+          "verified_only": {
+            "default": false,
+            "title": "Verified Only",
+            "type": "boolean"
+          },
+          "has_email": {
+            "default": false,
+            "description": "Only creators with a public email",
+            "title": "Has Email",
+            "type": "boolean"
+          },
+          "last_posted_within_days": {
+            "anyOf": [
+              {
+                "minimum": 30,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Posted within N days (min 30)",
+            "title": "Last Posted Within Days"
+          },
+          "audience_locations": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Audience countries/cities by name (any matches)",
+            "title": "Audience Locations"
+          },
+          "audience_location_min_pct": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "title": "Audience Location Min Pct",
+            "type": "number"
+          },
+          "audience_gender": {
+            "anyOf": [
+              {
+                "enum": [
+                  "male",
+                  "female"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Audience Gender"
+          },
+          "audience_gender_min_pct": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "title": "Audience Gender Min Pct",
+            "type": "number"
+          },
+          "audience_age_from": {
+            "anyOf": [
+              {
+                "enum": [
+                  13,
+                  18,
+                  25,
+                  35,
+                  45,
+                  65
+                ],
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Audience age range start, e.g. 18",
+            "title": "Audience Age From"
+          },
+          "audience_age_to": {
+            "anyOf": [
+              {
+                "enum": [
+                  17,
+                  24,
+                  34,
+                  44,
+                  64
+                ],
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Audience age range end, e.g. 34",
+            "title": "Audience Age To"
+          },
+          "audience_age_min_pct": {
+            "default": 50,
+            "description": "Minimum share of the audience inside the age range",
+            "maximum": 100,
+            "minimum": 1,
+            "title": "Audience Age Min Pct",
+            "type": "number"
+          },
+          "audience_language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Audience language: name or ISO code",
+            "title": "Audience Language"
+          },
+          "audience_interests": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instagram only. Audience interest categories, see lookup_filter_values(kind='interest')",
+            "title": "Audience Interests"
+          },
+          "audience_brands": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Instagram only. Brands the audience likes",
+            "title": "Audience Brands"
+          },
+          "sort_by": {
+            "anyOf": [
+              {
+                "enum": [
+                  "relevance",
+                  "keywords",
+                  "followers",
+                  "engagement_rate",
+                  "engagements",
+                  "views",
+                  "followers_growth"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Default: relevance with topic, keywords with keywords, otherwise followers",
+            "title": "Sort By"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "maximum": 9950,
+            "minimum": 0,
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "platform"
+        ],
+        "title": "search_influencersArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_contacts",
+      "description": "Public contacts: email, phone, other social accounts (0.04 credits per account with contacts).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "accounts": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Accounts",
+            "type": "array"
+          }
+        },
+        "required": [
+          "platform",
+          "accounts"
+        ],
+        "title": "get_contactsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "unlock_search_results",
+      "description": "Reveal hidden search rows (0.02 credits per account).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "search_result_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Search Result Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "platform",
+          "search_result_ids"
+        ],
+        "title": "unlock_search_resultsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "lookup_filter_values",
+      "description": "Find filter values: locations, interests, brands, languages, hashtags (free).",
+      "inputSchema": {
+        "properties": {
+          "kind": {
+            "description": "location: countries/states/cities; interest: audience interest categories; brand; language; topic: related hashtags with popularity, to tune search topic",
+            "enum": [
+              "location",
+              "interest",
+              "brand",
+              "language",
+              "topic"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Name or hashtag to look up; optional for interest",
+            "title": "Query"
+          },
+          "limit": {
+            "default": 10,
+            "maximum": 50,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "title": "lookup_filter_valuesArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_hashtag_posts",
+      "description": "Public posts with a hashtag (0.02 credits per page).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "hashtag": {
+            "description": "One hashtag, with or without #, e.g. 'veganrecipes'",
+            "title": "Hashtag",
+            "type": "string"
+          },
+          "sort": {
+            "default": "recent",
+            "description": "Instagram only: 'recent' posts page by page, or the 9 'top' posts",
+            "enum": [
+              "recent",
+              "top"
+            ],
+            "title": "Sort",
+            "type": "string"
+          },
+          "cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "next_cursor from the previous call, to get the next page",
+            "title": "Cursor"
+          }
+        },
+        "required": [
+          "platform",
+          "hashtag"
+        ],
+        "title": "get_hashtag_postsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_creator_posts",
+      "description": "A creator's latest posts (0.02 credits per page).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "account": {
+            "description": "Username (Instagram/TikTok), channel handle or ID (YouTube), or a full profile URL",
+            "title": "Account",
+            "type": "string"
+          },
+          "cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "next_cursor from the previous call, to get the next page",
+            "title": "Cursor"
+          }
+        },
+        "required": [
+          "platform",
+          "account"
+        ],
+        "title": "get_creator_postsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_post",
+      "description": "One post's stats and content (0.02 credits).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "post": {
+            "description": "Post URL, or the Instagram shortcode / TikTok or YouTube video ID",
+            "title": "Post",
+            "type": "string"
+          }
+        },
+        "required": [
+          "platform",
+          "post"
+        ],
+        "title": "get_postArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_post_comments",
+      "description": "Comments under a post (0.02 credits per page).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "post": {
+            "description": "Post URL, or the Instagram shortcode / TikTok or YouTube video ID",
+            "title": "Post",
+            "type": "string"
+          },
+          "cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "next_cursor from the previous call, to get the next page",
+            "title": "Cursor"
+          }
+        },
+        "required": [
+          "platform",
+          "post"
+        ],
+        "title": "get_post_commentsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_my_reports",
+      "description": "Reports bought in the last 60 days (free).",
+      "inputSchema": {
+        "properties": {
+          "platform": {
+            "description": "Social network",
+            "enum": [
+              "instagram",
+              "tiktok",
+              "youtube"
+            ],
+            "title": "Platform",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Filter by username or name",
+            "title": "Query"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "platform"
+        ],
+        "title": "list_my_reportsArguments",
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_campaigns",
+      "description": "Campaign Monitoring campaigns (free).",
+      "inputSchema": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "draft",
+                  "active",
+                  "archive"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Only campaigns in this status",
+            "title": "Status"
+          }
+        },
+        "title": "list_campaignsArguments",
+        "type": "object"
+      }
+    }
+  ]
+}

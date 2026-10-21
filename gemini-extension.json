@@ -1,0 +1,10 @@
+{
+  "name": "iqfluence",
+  "version": "1.0.0",
+  "description": "Search 455M+ Instagram, TikTok and YouTube creators and analyze influencers with IQFluence.",
+  "mcpServers": {
+    "iqfluence": {
+      "httpUrl": "https://mcp.iqfluence.io/mcp"
+    }
+  }
+}
