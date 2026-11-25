@@ -14,6 +14,10 @@
   <a href="mailto:support@iqfluence.io">Support</a>
 </p>
 
+<p align="center">
+  <a href="https://glama.ai/mcp/connectors/io.iqfluence/mcp"><img src="https://glama.ai/mcp/connectors/io.iqfluence/mcp/badges/score.svg" alt="IQFluence MCP connector on Glama"></a>
+</p>
+
 IQFluence MCP is a remote [Model Context Protocol](https://modelcontextprotocol.io) server that gives AI assistants
 access to IQFluence influencer data: 455M+ Instagram, TikTok and YouTube creators. From Claude, ChatGPT, Codex,
 Cursor, VS Code, Gemini CLI and other MCP clients you can find creators, open audience reports with fake-follower
