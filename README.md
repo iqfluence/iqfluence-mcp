@@ -112,6 +112,26 @@ gemini mcp add --transport http iqfluence https://mcp.iqfluence.io/mcp
 
 Then run `/mcp auth iqfluence` inside Gemini CLI.
 
+### Cline
+
+Open **MCP Servers → Configure → Remote Servers**, enter the name `iqfluence` and the URL
+`https://mcp.iqfluence.io/mcp`, choose **Streamable HTTP** and click **Add Server**. Or add to
+`cline_mcp_settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "iqfluence": {
+      "type": "streamableHttp",
+      "url": "https://mcp.iqfluence.io/mcp",
+      "disabled": false
+    }
+  }
+}
+```
+
+Sign in through the browser when Cline asks to authorize the server, or use an API key header as shown below.
+
 ### API key instead of OAuth
 
 For scripts and CI, create a key in **Profile → API keys** on iqfluence.io and send it as a header:
